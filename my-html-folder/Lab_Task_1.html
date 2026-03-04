@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>TechFlow</title>
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#f0f2f5;
+}
+
+.container{
+  display:flex;
+  height:100vh;
+}
+
+.left{
+  width:28%;
+  background:black;
+  color:white;
+  padding:10px 0;
+}
+
+.left h1{
+  text-align:center;
+  margin:0 0 15px 0;
+}
+
+.menu{
+  margin:0;
+}
+
+.menu div{
+  padding:14px 20px;
+  cursor:pointer;
+  border-radius:0;
+  margin:0;
+  width:100%;
+  box-sizing:border-box;
+}
+
+.menu .active-login{
+  background:blue;
+  color:white;
+}
+
+.menu .active-register{
+  background:green;
+  color:white;
+}
+
+.right{
+  width:72%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.card{
+  background:#ffffff;
+  width:360px;
+  padding:25px;
+  border-radius:14px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.15);
+}
+
+.card h3{
+  text-align:left;
+  margin:0 0 15px 0;
+  font-size:22px;
+}
+
+.card label{
+  font-size:16px;
+  font-weight:bold;
+  color:#333;
+}
+
+.card input, .card select{
+  width:100%;
+  padding:12px;
+  margin-top:5px;
+  margin-bottom:18px;
+  border:1px solid #ccc;
+  border-radius:8px;
+  font-size:15px;
+  box-sizing:border-box;
+}
+
+.card button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:8px;
+  color:white;
+  cursor:pointer;
+  font-size:16px;
+  box-sizing:border-box;
+}
+
+.blue{
+  background:blue;
+}
+
+.green{
+  background:green;
+}
+
+#registerBox{
+  display:none;
+}
+</style>
+
+<script>
+function showLogin(){
+  document.getElementById("loginBox").style.display="block";
+  document.getElementById("registerBox").style.display="none";
+  document.getElementById("loginMenu").className="active-login";
+  document.getElementById("registerMenu").className="";
+}
+
+function showRegister(){
+  document.getElementById("loginBox").style.display="none";
+  document.getElementById("registerBox").style.display="block";
+  document.getElementById("registerMenu").className="active-register";
+  document.getElementById("loginMenu").className="";
+}
+</script>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="left">
+  <h1>TechFlow</h1>
+  <div class="menu">
+    <div id="loginMenu" class="active-login" onclick="showLogin()">Login</div>
+    <div id="registerMenu" onclick="showRegister()">Register</div>
+  </div>
+</div>
+
+<div class="right">
+
+<div class="card" id="loginBox">
+  <h3>Login</h3>
+  <label>Email Address</label>
+  <input type="email">
+  <label>Password</label>
+  <input type="password">
+  <button class="blue">Sign In</button>
+</div>
+
+<div class="card" id="registerBox">
+  <h3>Create Account</h3>
+  <label>Email Address</label>
+  <input type="email">
+  <label>Password</label>
+  <input type="password">
+  <label>Gender</label>
+  <select>
+    <option>Male</option>
+    <option>Female</option>
+  </select>
+  <button class="green">Register</button>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

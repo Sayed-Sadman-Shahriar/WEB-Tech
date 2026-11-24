@@ -1,0 +1,270 @@
+getwd()
+
+df_nmes<-read.csv("NMES1988.csv",sep=",")
+
+str(df_nmes)
+colSums(is.na(df_nmes))
+
+df_nmes$visits[c(2706,2680,310,3810,3294,569,108,89)]<-NA
+df_nmes$chronic[c(1905,3275,87,3718,4114,4027)]<-NA
+df_nmes$school[c(2963,3556,1617,2529,3977,2436)]<-NA
+df_nmes$income[c(4243,2184,4136,1758,3543)]<-NA
+df_nmes$health[c(3875,2038,1738,3128,595)]<-NA
+df_nmes$region[c(2676,2714,349,4043,3913)]<-NA
+df_nmes$married[c(3745,2711,4164,4155,2119)]<-NA
+df_nmes$insurance[c(1926,4307,82,3122)]<-NA
+
+colSums(is.na(df_nmes))
+
+df_nmes$health[c(3635,3865,682)]<-"Average"
+df_nmes$health[c(2750,4053)]<-"exellent"
+df_nmes$gender[c(4173,2947,3010)]<-"Male"
+df_nmes$gender[c(2544,1716)]<-"femal"
+df_nmes$adl[c(3159,2624)]<-"Normal"
+df_nmes$insurance[4087]<-"Yes"
+df_nmes$insurance[4093]<-"NO"
+df_nmes$chronic[c(3994,2977,2955)]<-c(4.3,3.6,1.4)
+df_nmes$school[c(724,3349,1962)]<-c(9.2,8.7,13.4)
+
+table(df_nmes$health)
+table(df_nmes$gender)
+table(df_nmes$adl)
+table(df_nmes$insurance)
+
+df_nmes$visits[c(698,859)]<-c(-3,-1)
+df_nmes$chronic[2183]<--2
+df_nmes$school[2144]<-25
+df_nmes$age[c(233,3922)]<-c(4.5,12.4)
+df_nmes$hospital[1471]<--1
+
+write.csv(df_nmes,"NMES1988_modified.csv",row.names = FALSE)
+
+
+df_nmes<-read.csv("NMES1988_modified.csv",sep=",")
+
+str(df_nmes)
+
+
+colSums(is.na(df_nmes))
+
+df_discard<-na.omit(df_nmes)
+colSums(is.na(df_discard))
+dim(df_discard)
+
+df_nmes$visits[is.na(df_nmes$visits)]<-round(mean(df_nmes$visits,na.rm = TRUE))
+df_nmes$chronic[is.na(df_nmes$chronic)]<-round(mean(df_nmes$chronic,na.rm = TRUE))
+df_nmes$school[is.na(df_nmes$school)]<-round(mean(df_nmes$school,na.rm = TRUE))
+df_nmes$income[is.na(df_nmes$income)]<-mean(df_nmes$income,na.rm = TRUE)
+
+df_nmes$health[is.na(df_nmes$health)]<-names(which.max(table(df_nmes$health)))
+df_nmes$region[is.na(df_nmes$region)]<-names(which.max(table(df_nmes$region)))
+df_nmes$married[is.na(df_nmes$married)]<-names(which.max(table(df_nmes$married)))
+df_nmes$insurance[is.na(df_nmes$insurance)]<-names(which.max(table(df_nmes$insurance)))
+
+colSums(is.na(df_nmes))
+
+
+table(df_nmes$health)
+df_nmes$health<-ifelse(df_nmes$health=="Average","average",df_nmes$health)
+df_nmes$health<-ifelse(df_nmes$health=="exellent","excellent",df_nmes$health)
+table(df_nmes$health)
+
+table(df_nmes$gender)
+df_nmes$gender<-ifelse(df_nmes$gender=="Male","male",df_nmes$gender)
+df_nmes$gender<-ifelse(df_nmes$gender=="femal","female",df_nmes$gender)
+table(df_nmes$gender)
+
+table(df_nmes$adl)
+df_nmes$adl<-ifelse(df_nmes$adl=="Normal","normal",df_nmes$adl)
+table(df_nmes$adl)
+
+table(df_nmes$insurance)
+df_nmes$insurance<-ifelse(df_nmes$insurance=="Yes","yes",df_nmes$insurance)
+df_nmes$insurance<-ifelse(df_nmes$insurance=="NO","no",df_nmes$insurance)
+table(df_nmes$insurance)
+
+df_nmes$chronic[df_nmes$chronic!=round(df_nmes$chronic)]
+df_nmes$chronic<-round(df_nmes$chronic)
+df_nmes$school[df_nmes$school!=round(df_nmes$school)]
+df_nmes$school<-round(df_nmes$school)
+
+
+df_nmes$visits[df_nmes$visits<0]
+df_nmes$visits[df_nmes$visits<0]<-NA
+df_nmes$visits[is.na(df_nmes$visits)]<-round(mean(df_nmes$visits,na.rm = TRUE))
+
+df_nmes$chronic[df_nmes$chronic<0]
+df_nmes$chronic[df_nmes$chronic<0]<-NA
+df_nmes$chronic[is.na(df_nmes$chronic)]<-round(mean(df_nmes$chronic,na.rm = TRUE))
+
+df_nmes$hospital[df_nmes$hospital<0]
+df_nmes$hospital[df_nmes$hospital<0]<-NA
+df_nmes$hospital[is.na(df_nmes$hospital)]<-round(mean(df_nmes$hospital,na.rm = TRUE))
+
+df_nmes$school[df_nmes$school>18]
+df_nmes$school[df_nmes$school>18]<-NA
+df_nmes$school[is.na(df_nmes$school)]<-round(mean(df_nmes$school,na.rm = TRUE))
+
+df_nmes$age[df_nmes$age<6.6 | df_nmes$age>11]
+df_nmes$age[df_nmes$age<6.6 | df_nmes$age>11]<-NA
+df_nmes$age[is.na(df_nmes$age)]<-round(mean(df_nmes$age,na.rm = TRUE),1)
+
+df_nmes$income[df_nmes$income<0]
+df_nmes$income[df_nmes$income<0]<-NA
+df_nmes$income[is.na(df_nmes$income)]<-mean(df_nmes$income,na.rm = TRUE)
+
+
+df_nmes$health<-as.factor(df_nmes$health)
+df_nmes$region<-as.factor(df_nmes$region)
+str(df_nmes)
+
+df_nmes$adl<-ifelse(df_nmes$adl=="limited",1,0)
+df_nmes$afam<-ifelse(df_nmes$afam=="yes",1,0)
+df_nmes$gender<-ifelse(df_nmes$gender=="male",1,0)
+df_nmes$married<-ifelse(df_nmes$married=="yes",1,0)
+df_nmes$employed<-ifelse(df_nmes$employed=="yes",1,0)
+df_nmes$insurance<-ifelse(df_nmes$insurance=="yes",1,0)
+df_nmes$medicaid<-ifelse(df_nmes$medicaid=="yes",1,0)
+
+df_nmes$visits_norm<-(df_nmes$visits-min(df_nmes$visits))/(max(df_nmes$visits)-min(df_nmes$visits))
+df_nmes$income_norm<-(df_nmes$income-min(df_nmes$income))/(max(df_nmes$income)-min(df_nmes$income))
+
+
+x<-df_nmes$visits
+par(mfrow=c(1, 2))
+boxplot(x,col="red",main="Box plot of visits")
+boxplot(df_nmes$income,col="red",main="Box plot of income")
+boxplot.stats(df_nmes$visits)$out
+boxplot.stats(df_nmes$income)$out
+
+
+mean(df_nmes$visits)
+median(df_nmes$visits)
+max(df_nmes$visits)
+min(df_nmes$visits)
+range(df_nmes$visits)
+sd(df_nmes$visits)
+summary(df_nmes)
+
+par(mfrow=c(1, 1))
+names(table(df_nmes$health))
+
+barplot(table(df_nmes$health))
+
+plot(df_nmes$region)
+
+table(df_nmes$health)
+
+pie(table(df_nmes$health),names(table(df_nmes$health)))
+
+par(mfrow=c(1, 2))
+slices <- table(df_nmes$health)
+lbls <- names(table(df_nmes$health))
+pie( slices, labels = lbls,
+     main="Simple Pie Chart")
+pct <- round(slices/sum(slices)*100)
+lbls2 <- paste(lbls, " ", pct, "%", sep="")
+pie(slices, labels=lbls2, col=rainbow(length(lbls2)),
+    main="Pie Chart with Percentages")
+
+
+
+par(mfrow=c(2, 2))
+hist(df_nmes$visits,col="red", xlab="visits",
+     main="Histogram of visits")
+hist(df_nmes$chronic)
+hist(df_nmes$school)
+hist(df_nmes$age)
+
+x<-df_nmes$visits
+
+par(mfrow=c(2,2))
+h<-hist(x,
+        breaks=12,
+        xlab="visits",
+        main="Histogram")
+
+h<-hist(x,
+        breaks=12,
+        col="red",
+        xlab="visits",
+        main="Histogram with color")
+
+hist(x,
+     freq=FALSE,
+     breaks=12,
+     col="red",
+     xlab="visits",
+     main="Histogram, rug plot, density curve")
+rug(jitter(x))
+lines(density(x,na.rm=TRUE), col="blue", lwd=2)
+
+h<-hist(x,
+        breaks=12,
+        col="red",
+        xlab="visits",
+        main="Histogram with color")
+xfit<-seq(min(x,na.rm = TRUE), max(x,na.rm = TRUE), length=40)
+yfit<-dnorm(xfit, mean=mean(x,na.rm = TRUE), sd=sd(x,na.rm = TRUE))
+yfit <- yfit*diff(h$mids[1:2])*length(x)
+lines(xfit, yfit, col="blue", lwd=2)
+box()
+
+
+x<-df_nmes$visits
+
+par(mfrow=c(2,1))
+d <- density(x,na.rm = TRUE)
+plot(d)
+d <- density(x,na.rm = TRUE)
+plot(d, main="Kernel Density of Visits")
+polygon(d, col="red", border="blue")
+rug(x, col="brown")
+
+
+par(mfrow=c(1,1))
+plot(df_nmes$chronic,df_nmes$visits)
+
+
+train_index<-sample(1:nrow(df_nmes),0.8*nrow(df_nmes))
+train_df<-df_nmes[train_index,]
+test_df<-df_nmes[-train_index,]
+dim(train_df)
+dim(test_df)
+
+
+cor(df_nmes$nvisits,df_nmes$visits)
+cor(df_nmes$ovisits,df_nmes$visits)
+cor(df_nmes$novisits,df_nmes$visits)
+cor(df_nmes$emergency,df_nmes$visits)
+cor(df_nmes$hospital,df_nmes$visits)
+cor(df_nmes$chronic,df_nmes$visits)
+cor(df_nmes$age,df_nmes$visits)
+cor(df_nmes$school,df_nmes$visits)
+cor(df_nmes$income,df_nmes$visits)
+cor(df_nmes$adl,df_nmes$visits)
+cor(df_nmes$afam,df_nmes$visits)
+cor(df_nmes$gender,df_nmes$visits)
+cor(df_nmes$married,df_nmes$visits)
+cor(df_nmes$employed,df_nmes$visits)
+cor(df_nmes$insurance,df_nmes$visits)
+cor(df_nmes$medicaid,df_nmes$visits)
+
+x<-data.frame(train_df$chronic,train_df$hospital,train_df$nvisits,train_df$emergency,train_df$adl)
+y<-data.frame(train_df$visits)
+
+
+model<-lm(visits~chronic+hospital+nvisits+emergency+adl,data=train_df)
+summary(model)
+
+pred<-predict(model,test_df)
+mean(abs(test_df$visits-pred))
+sqrt(mean((test_df$visits-pred)^2))
+1-sum((test_df$visits-pred)^2)/sum((test_df$visits-mean(test_df$visits))^2)
+
+par(mfrow=c(1,2))
+plot(test_df$visits,pred,xlab="actual visits",ylab="predicted visits")
+hist(test_df$visits-pred,col="red",xlab="error",main="Histogram of error")
+
+
+write.csv(df_nmes,"NMES1988_updated.csv")
